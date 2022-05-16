@@ -30,8 +30,6 @@ class LLRequest {
     // 全局拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('全局请求成功')
-
         // 添加一个loading
         if (this.isLoading) {
           this.loading = ElLoading.service({
@@ -44,13 +42,11 @@ class LLRequest {
         return config
       },
       (error) => {
-        console.log('全局请求失败')
         return error
       }
     )
     this.instance.interceptors.response.use(
       (res) => {
-        console.log('全局响应成功')
         // 将loading去除
         setTimeout(() => {
           this.loading?.close()
@@ -65,7 +61,6 @@ class LLRequest {
         }
       },
       (error) => {
-        console.log('全局响应失败')
         this.loading?.close()
         // 例子: 判断不同的HttpErrorCode显示不同的错误信息
         if (error.response.status === 404) {
@@ -108,6 +103,12 @@ class LLRequest {
     return this.request<T>({
       ...config,
       method: 'GET'
+    })
+  }
+  post<T>(config: LLRequestConfig<T>): Promise<T> {
+    return this.request<T>({
+      ...config,
+      method: 'POST'
     })
   }
 }
