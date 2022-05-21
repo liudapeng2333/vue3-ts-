@@ -19,6 +19,14 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
+"@antfu/install-pkg@^0.1.0":
+  "integrity" "sha512-VaIJd3d1o7irZfK1U0nvBsHMyjkuyMP3HKYVV53z8DKyulkHKmjhhtccXO51WSPeeSHIeoJEoNOKavYpS7jkZw=="
+  "resolved" "https://registry.npmmirror.com/@antfu/install-pkg/-/install-pkg-0.1.0.tgz"
+  "version" "0.1.0"
+  dependencies:
+    "execa" "^5.1.1"
+    "find-up" "^5.0.0"
+
 "@antfu/utils@^0.5.0", "@antfu/utils@^0.5.1":
   "integrity" "sha512-8Afo0+xvYe1K8Wm4xHTymfTkpzy36aaqDvhXIayUwl+mecMG9Xzl3XjXa6swG6Bk8FBeQ646RyvmsYt6+2Be9g=="
   "resolved" "https://registry.npmmirror.com/@antfu/utils/-/utils-0.5.1.tgz"
@@ -1121,6 +1129,11 @@
   "resolved" "https://registry.npmmirror.com/@element-plus/icons-vue/-/icons-vue-1.1.4.tgz"
   "version" "1.1.4"
 
+"@element-plus/icons@^0.0.11":
+  "integrity" "sha512-iKQXSxXu131Ai+I9Ymtcof9WId7kaXvB1+WRfAfpQCW7UiAMYgdNDqb/u0hgTo2Yq3MwC4MWJnNuTBEpG8r7+A=="
+  "resolved" "https://registry.npmmirror.com/@element-plus/icons/-/icons-0.0.11.tgz"
+  "version" "0.0.11"
+
 "@eslint/eslintrc@^0.4.3":
   "integrity" "sha512-J6KFFz5QCYUJq3pf0mjEcCJVERbzv71PUIDczuh9JkwGEzced6CO5ADLHB1rbf/+oPBtoPfMYNOpGDzCANlbXw=="
   "resolved" "https://registry.npmjs.org/@eslint/eslintrc/-/eslintrc-0.4.3.tgz"
@@ -1173,6 +1186,23 @@
   "integrity" "sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA=="
   "resolved" "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   "version" "1.2.1"
+
+"@iconify/types@^1.1.0":
+  "integrity" "sha512-Jh0llaK2LRXQoYsorIH8maClebsnzTcve+7U3rQUSnC11X4jtPnFuyatqFLvMxZ8MLG8dB4zfHsbPfuvxluONw=="
+  "resolved" "https://registry.npmmirror.com/@iconify/types/-/types-1.1.0.tgz"
+  "version" "1.1.0"
+
+"@iconify/utils@^1.0.32":
+  "integrity" "sha512-m+rnw7qKHq/XF7DAi4BcFoEAcXBfqqMgQJh8brGEHeqE/RUvgDMjmxsHgWnVpFsG+VmjGyAiI7nwXdliCwEU0Q=="
+  "resolved" "https://registry.npmmirror.com/@iconify/utils/-/utils-1.0.32.tgz"
+  "version" "1.0.32"
+  dependencies:
+    "@antfu/install-pkg" "^0.1.0"
+    "@antfu/utils" "^0.5.0"
+    "@iconify/types" "^1.1.0"
+    "debug" "^4.3.4"
+    "kolorist" "^1.5.1"
+    "local-pkg" "^0.4.1"
 
 "@jridgewell/gen-mapping@^0.1.0":
   "integrity" "sha512-YH+BnkvuCiPR+MUOY6JIArdTIGrRtsxnLaIxPRy4CpGJ/V6OO6Gq/1J+FJEc4j5e5h6Bcy3/K7prlMrm93BJoA=="
@@ -1849,7 +1879,7 @@
     "@vue/compiler-core" "3.2.33"
     "@vue/shared" "3.2.33"
 
-"@vue/compiler-sfc@3.2.33":
+"@vue/compiler-sfc@^3.0.2", "@vue/compiler-sfc@3.2.33":
   "integrity" "sha512-H8D0WqagCr295pQjUYyO8P3IejM3vEzeCO1apzByAEaAR/WimhMYczHfZVvlCE/9yBaEu/eu9RdiWr0kF8b71Q=="
   "resolved" "https://registry.npmjs.org/@vue/compiler-sfc/-/compiler-sfc-3.2.33.tgz"
   "version" "3.2.33"
@@ -3800,6 +3830,21 @@
     "signal-exit" "^3.0.3"
     "strip-final-newline" "^2.0.0"
 
+"execa@^5.1.1":
+  "integrity" "sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg=="
+  "resolved" "https://registry.npmmirror.com/execa/-/execa-5.1.1.tgz"
+  "version" "5.1.1"
+  dependencies:
+    "cross-spawn" "^7.0.3"
+    "get-stream" "^6.0.0"
+    "human-signals" "^2.1.0"
+    "is-stream" "^2.0.0"
+    "merge-stream" "^2.0.0"
+    "npm-run-path" "^4.0.1"
+    "onetime" "^5.1.2"
+    "signal-exit" "^3.0.3"
+    "strip-final-newline" "^2.0.0"
+
 "expand-tilde@^2.0.0", "expand-tilde@^2.0.2":
   "integrity" "sha512-A5EmesHW6rfnZ9ysHQjPdJRni0SRar0tjtG5MNtm9n5TUvsYU8oozprtRD4AqHxcZWWlVuAmQo2nWKfN9oyjTw=="
   "resolved" "https://registry.npmmirror.com/expand-tilde/-/expand-tilde-2.0.2.tgz"
@@ -4833,6 +4878,11 @@
   "integrity" "sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ=="
   "resolved" "https://registry.npmjs.org/klona/-/klona-2.0.5.tgz"
   "version" "2.0.5"
+
+"kolorist@^1.5.1":
+  "integrity" "sha512-lxpCM3HTvquGxKGzHeknB/sUjuVoUElLlfYnXZT73K8geR9jQbroGlSCFBax9/0mpGoD3kzcMLnOlGQPJJNyqQ=="
+  "resolved" "https://registry.npmmirror.com/kolorist/-/kolorist-1.5.1.tgz"
+  "version" "1.5.1"
 
 "launch-editor-middleware@^2.2.1":
   "integrity" "sha512-GJR64trLdFFwCoL9DMn/d1SZX0OzTDPixu4mcfWTShQ4tIqCHCGvlg9fOEYQXyBlrSMQwylsJfUWncheShfV2w=="
@@ -7173,6 +7223,19 @@
     "resolve" "^1.22.0"
     "unplugin" "^0.6.1"
 
+"unplugin-icons@^0.14.3":
+  "integrity" "sha512-PyyNMACpZ/EAiG3B6K1wPGZ151VGdlHIEx8/utgP546yVmPpV/xC1k1V2eEebf71fGm3WD6gzPrERNsbMgIVgg=="
+  "resolved" "https://registry.npmmirror.com/unplugin-icons/-/unplugin-icons-0.14.3.tgz"
+  "version" "0.14.3"
+  dependencies:
+    "@antfu/install-pkg" "^0.1.0"
+    "@antfu/utils" "^0.5.1"
+    "@iconify/utils" "^1.0.32"
+    "debug" "^4.3.4"
+    "kolorist" "^1.5.1"
+    "local-pkg" "^0.4.1"
+    "unplugin" "^0.6.2"
+
 "unplugin-vue-components@^0.19.3":
   "integrity" "sha512-z/kpYJnqrJuWglDNs7fy0YRHr41oLc07y2TkP3by6DqPb1GG9xGC9SFigeFwd4J7GVTqyFVsnjoeup7uK7I2dA=="
   "resolved" "https://registry.npmmirror.com/unplugin-vue-components/-/unplugin-vue-components-0.19.3.tgz"
@@ -7189,7 +7252,7 @@
     "resolve" "^1.22.0"
     "unplugin" "^0.6.1"
 
-"unplugin@^0.6.1":
+"unplugin@^0.6.1", "unplugin@^0.6.2":
   "integrity" "sha512-+QONc2uBFQbeo4x5mlJHjTKjR6pmuchMpGVrWhwdGFFMb4ttFZ4E9KqhOOrNcm3Q8NNyB1vJ4s5e36IZC7UWYw=="
   "resolved" "https://registry.npmmirror.com/unplugin/-/unplugin-0.6.2.tgz"
   "version" "0.6.2"

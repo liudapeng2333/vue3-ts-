@@ -41,14 +41,11 @@
 import { defineComponent, ref } from 'vue'
 import LoginAccount from './LoginAccount.vue'
 import LoginIphone from './LoginIphone.vue'
-import { UserFilled, Iphone } from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: {
     LoginAccount,
-    LoginIphone,
-    UserFilled,
-    Iphone
+    LoginIphone
   },
   setup() {
     // 是否记住密码

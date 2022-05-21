@@ -5,6 +5,7 @@ import {
   requestUserMenuById
 } from '@/service/login/login'
 import localCache from '@/utils/cache'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 
 import { ILoginState } from './types'
 import { IRootState } from '../types'
@@ -28,8 +29,14 @@ const accountLogin: Module<ILoginState, IRootState> = {
     changeUserInfo(state, userInfo: any) {
       state.userInfo = userInfo
     },
-    changeUserMenu(state, userMenu: any) {
-      state.userMenus = userMenu
+    changeUserMenu(state, userMenus: any) {
+      state.userMenus = userMenus
+      const routes = mapMenusToRoutes(userMenus)
+
+      // 注册路由
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {
@@ -52,7 +59,7 @@ const accountLogin: Module<ILoginState, IRootState> = {
       localCache.setItem('userMenu', userMenus)
       commit('changeUserMenu', userMenus)
 
-      router.push('/home')
+      router.push('/main')
     },
     loadLocalLogin({ commit }) {
       const token = localCache.getItem('token')

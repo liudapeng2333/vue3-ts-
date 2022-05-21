@@ -11,11 +11,13 @@ import lquest from './service'
 // import ElementPlus from 'element-plus' // 全局引入样式
 // import 'element-plus/dist/index.css'
 
-createApp(App).use(store).use(router).mount('#app')
-setupStore()
+// element-plus引入图标
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-interface DataType {
-  data: any
-  returnCode: string
-  success: boolean
+const app = createApp(App)
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
 }
+app.use(store)
+setupStore()
+app.use(router).mount('#app')
