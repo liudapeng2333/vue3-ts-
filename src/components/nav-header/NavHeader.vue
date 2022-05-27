@@ -4,7 +4,7 @@
       <component :is="iconName" @click="handleFoldClick"></component>
     </el-icon>
     <div class="content">
-      <breadcrumb :breadcrumbs="breadcrumbs" />
+      <ll-breadcrumb :breadcrumbs="breadcrumbs" />
       <user-info />
     </div>
   </div>
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import Breadcrumb from '@/base-ui/breadcrumb'
+import LlBreadcrumb from '@/base-ui/breadcrumb'
 import { pathMapBreadcrumbs } from '@/utils/map-menus'
 import { useRoute } from 'vue-router'
 import { useStore } from '@/store'
@@ -22,7 +22,7 @@ import UserInfo from './UserInfo.vue'
 export default defineComponent({
   emits: ['flodChange'],
   components: {
-    Breadcrumb,
+    LlBreadcrumb,
     UserInfo
   },
   setup(props, { emit }) {

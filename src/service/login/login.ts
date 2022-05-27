@@ -1,5 +1,6 @@
 import llRequest from '../index'
-import { IAccount, IDataType, ILoginResult, IUserInfo, IUserMenu } from './type'
+import { IAccount, ILoginResult, IUserInfo, IUserMenu } from './type'
+import { IDataType } from '../types'
 
 enum LoginAPI {
   AcountLogin = '/login',

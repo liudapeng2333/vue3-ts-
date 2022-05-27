@@ -48,9 +48,7 @@ class LLRequest {
     this.instance.interceptors.response.use(
       (res) => {
         // 将loading去除
-        setTimeout(() => {
-          this.loading?.close()
-        }, 1000)
+        this.loading?.close()
         // 对返回的数据进行进一步的封装
         const data = res.data
 
