@@ -1,7 +1,7 @@
 import { Module } from 'vuex'
 import { ItableState } from './types'
 import { IRootState } from '../../types'
-import { userListRequset, listRequest } from '@/service/system/userList'
+import { listRequest } from '@/service/system/userList'
 
 const system: Module<ItableState, IRootState> = {
   namespaced: true,
@@ -9,12 +9,19 @@ const system: Module<ItableState, IRootState> = {
     usersList: [],
     usersCount: 0,
     roleList: [],
-    roleCount: 0
+    roleCount: 0,
+    goodsList: [],
+    goodsCount: 0
   },
   getters: {
     pageListData(state) {
       return (pageName: string) => {
         return (state as any)[`${pageName}List`]
+      }
+    },
+    pageListCount(state) {
+      return (pageName: string) => {
+        return (state as any)[`${pageName}Count`]
       }
     }
   },
@@ -30,6 +37,12 @@ const system: Module<ItableState, IRootState> = {
     },
     changeroleCount(state, roleCount: number) {
       state.roleCount = roleCount
+    },
+    changegoodsList(state, goodsList: any[]) {
+      state.goodsList = goodsList
+    },
+    changegoodsCount(state, goodsCount: number) {
+      state.goodsCount = goodsCount
     }
   },
   actions: {

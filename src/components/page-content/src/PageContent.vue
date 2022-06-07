@@ -1,8 +1,13 @@
 <template>
   <div class="page-content">
-    <ll-table :tableData="tableData" v-bind="pageContentConfig">
+    <ll-table
+      :tableData="tableData"
+      v-bind="pageContentConfig"
+      v-model:page="pageInfo"
+      :listCount="listCount"
+    >
       <template #status="scope">
-        <el-button :type="scope.row.enable ? 'success' : 'danger'">{{
+        <el-button :type="scope.row.enable ? 'success' : 'danger'" plain>{{
           scope.row.enable ? '启用' : '禁用'
         }}</el-button>
       </template>
@@ -18,17 +23,23 @@
           <el-button icon="Delete" type="text" size="small">删除</el-button>
         </div>
       </template>
-      <template #headerHandle>
-        <el-button type="primary">新建用户</el-button>
+      <!-- 将其他组件独有的插槽动态插入 -->
+      <template
+        v-for="item in oterSlotsProps"
+        :key="item.prop"
+        #[item.slotName]="scope"
+      >
+        <slot :name="item.slotName" :row="scope.row"></slot>
       </template>
     </ll-table>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import LlTable from '@/base-ui/table'
 import { useStore } from '@/store'
+import { tr } from 'element-plus/lib/locale'
 
 export default defineComponent({
   props: {
@@ -46,19 +57,41 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    store.dispatch('system/getPageList', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
     const tableData = computed(() =>
       store.getters['system/pageListData'](props.pageName)
     )
+    const listCount = computed(() =>
+      store.getters['system/pageListCount'](props.pageName)
+    )
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
+    watch(pageInfo, () => getPageInfo())
+    const getPageInfo = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageList', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
+          ...queryInfo
+        }
+      })
+    }
+    getPageInfo()
 
+    const oterSlotsProps = props.pageContentConfig.propList.filter(
+      (item: any) => {
+        if (item.slotName === 'status') return false
+        if (item.slotName === 'createAt') return false
+        if (item.slotName === 'updateAt') return false
+        if (item.slotName === 'handler') return false
+        return true
+      }
+    )
     return {
-      tableData
+      tableData,
+      listCount,
+      pageInfo,
+      getPageInfo,
+      oterSlotsProps
     }
   }
 })

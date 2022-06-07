@@ -1,7 +1,11 @@
 <template>
   <div class="user">
-    <page-search :pageSearchConfig="searchFormConfig"></page-search>
+    <page-search
+      :pageSearchConfig="searchFormConfig"
+      @handleSearchClick="handleSearchClick"
+    ></page-search>
     <page-content
+      ref="pageContentRef"
       :pageContentConfig="pageContentConfig"
       pageName="users"
     ></page-content>
@@ -9,11 +13,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
 import { searchFormConfig } from './config/pageSearch'
 import { pageContentConfig } from './config/pageContent'
+import { usePageSearch } from '@/hooks/use-page-search'
 
 export default defineComponent({
   name: 'user',
@@ -22,9 +27,13 @@ export default defineComponent({
     PageContent
   },
   setup() {
+    const [pageContentRef, handleSearchClick] = usePageSearch()
+
     return {
       searchFormConfig,
-      pageContentConfig
+      pageContentConfig,
+      pageContentRef,
+      handleSearchClick
     }
   }
 })

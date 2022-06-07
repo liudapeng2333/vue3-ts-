@@ -4,12 +4,14 @@
       <slot name="header">
         <div class="title">{{ tableTitle }}</div>
         <div class="handler">
-          <slot name="headerHandle"></slot>
+          <slot name="headerHandle">
+            <el-button type="primary">{{ headerHandle }}</el-button>
+          </slot>
         </div>
       </slot>
     </div>
 
-    <el-table :data="tableData" border size="large">
+    <el-table :data="tableData" border>
       <el-table-column
         v-if="showSelectionColumn"
         type="selection"
@@ -24,7 +26,7 @@
         label="序号"
       ></el-table-column>
       <template v-for="item of propList" :key="item.prop">
-        <el-table-column v-bind="item" align="center">
+        <el-table-column v-bind="item" align="center" show-overflow-tooltip>
           <template #default="scope">
             <slot :name="item.slotName" :row="scope.row">
               {{ scope.row[item.prop] }}
@@ -37,9 +39,14 @@
     <slot name="footer">
       <div class="footer">
         <el-pagination
-          layout="total, prev, pager, next, jumper"
-          :total="1000"
-        />
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+          :current-page="page.currentPage"
+          :page-size="page.pageSize"
+          :page-sizes="[10, 20, 30]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="listCount"
+        ></el-pagination>
       </div>
     </slot>
   </div>
@@ -53,6 +60,10 @@ export default defineComponent({
     tableTitle: {
       type: String,
       default: '用户列表'
+    },
+    headerHandle: {
+      type: String,
+      default: '新建用户'
     },
     tableData: {
       type: Array,
@@ -69,13 +80,28 @@ export default defineComponent({
     showIndexColumn: {
       type: Boolean,
       default: false
+    },
+    page: {
+      type: Object,
+      required: true
+    },
+    listCount: {
+      type: Number,
+      defaut: 0
     }
   },
-  setup() {
-    const currentPage = ref()
+  emits: ['update:page'],
+  setup(props, { emit }) {
+    const handleCurrentChange = (currentPage: number) => {
+      emit('update:page', { ...props.page, currentPage })
+    }
+    const handleSizeChange = (pageSize: number) => {
+      emit('update:page', { ...props.page, pageSize })
+    }
 
     return {
-      currentPage
+      handleCurrentChange,
+      handleSizeChange
     }
   }
 })
@@ -90,6 +116,13 @@ export default defineComponent({
   .title {
     font-size: 20px;
     font-weight: 700;
+  }
+}
+.el-table {
+  & ::v-deep th.el-table__cell,
+  ::v-deep td.el-table__cell {
+    // 设置position 使得 子元素不与其产生新的层叠关系
+    position: static;
   }
 }
 .footer {

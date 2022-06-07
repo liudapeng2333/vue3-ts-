@@ -7,7 +7,9 @@
       <template #footer>
         <div class="footer">
           <el-button icon="Refresh" @click="refresh">重置</el-button>
-          <el-button type="primary" icon="Search">搜索</el-button>
+          <el-button type="primary" icon="Search" @click="handleSearchBtn">
+            搜索
+          </el-button>
         </div>
       </template>
     </ll-form>
@@ -28,7 +30,8 @@ export default defineComponent({
   components: {
     LlForm
   },
-  setup(props) {
+  emits: ['handleSearchClick'],
+  setup(props, { emit }) {
     // 根据数据动态传输搜索框的属性
     const formItems = props.pageSearchConfig?.formItems ?? []
     const originFormData: any = {}
@@ -42,9 +45,15 @@ export default defineComponent({
         formData.value[`${key}`] = originFormData[key]
       })
     }
+    const handleSearchBtn = () => {
+      console.log(formData.value)
+
+      emit('handleSearchClick', formData.value)
+    }
     return {
       formData,
-      refresh
+      refresh,
+      handleSearchBtn
     }
   }
 })
