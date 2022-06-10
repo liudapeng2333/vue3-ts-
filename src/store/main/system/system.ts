@@ -1,7 +1,12 @@
 import { Module } from 'vuex'
 import { ItableState } from './types'
 import { IRootState } from '../../types'
-import { listRequest } from '@/service/system/userList'
+import {
+  listRequest,
+  createPageDataRequest,
+  editPageDataRequest,
+  deletePageDataRequest
+} from '@/service/system/userList'
 
 const system: Module<ItableState, IRootState> = {
   namespaced: true,
@@ -11,7 +16,9 @@ const system: Module<ItableState, IRootState> = {
     roleList: [],
     roleCount: 0,
     goodsList: [],
-    goodsCount: 0
+    goodsCount: 0,
+    menuList: [],
+    menuCount: 0
   },
   getters: {
     pageListData(state) {
@@ -43,6 +50,12 @@ const system: Module<ItableState, IRootState> = {
     },
     changegoodsCount(state, goodsCount: number) {
       state.goodsCount = goodsCount
+    },
+    changemenuList(state, menuList: any[]) {
+      state.menuList = menuList
+    },
+    changemenuCount(state, menuCount: number) {
+      state.menuCount = menuCount
     }
   },
   actions: {
@@ -51,6 +64,43 @@ const system: Module<ItableState, IRootState> = {
       const { list, totalCount } = pageData.data
       commit(`change${payload.pageName}List`, list)
       commit(`change${payload.pageName}Count`, totalCount)
+    },
+    async creatBtnActions({ commit, dispatch }, payload: any) {
+      const { pageName, newData } = payload
+      const url = `/${pageName}`
+      await createPageDataRequest(url, newData)
+
+      dispatch('getPageList', {
+        pageName: pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+    async editBtnActions({ dispatch }, payload: any) {
+      const { pageName, newData, id } = payload
+      const url = `/${pageName}/${id}`
+      await editPageDataRequest(url, newData)
+      dispatch('getPageList', {
+        pageName: pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+    async deleteBtnActions({ dispatch }, payload: any) {
+      const { pageName, id } = payload
+      const url = `/${pageName}/${id}`
+      await deletePageDataRequest(url)
+      dispatch('getPageList', {
+        pageName: pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
     }
   }
 }

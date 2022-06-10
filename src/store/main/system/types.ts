@@ -5,4 +5,6 @@ export interface ItableState {
   roleCount: number
   goodsList: any[]
   goodsCount: number
+  menuList: any[]
+  menuCount: number
 }

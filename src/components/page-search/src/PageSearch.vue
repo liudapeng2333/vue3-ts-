@@ -30,7 +30,7 @@ export default defineComponent({
   components: {
     LlForm
   },
-  emits: ['handleSearchClick'],
+  emits: ['handleSearchClick', 'handleRefreshClick'],
   setup(props, { emit }) {
     // 根据数据动态传输搜索框的属性
     const formItems = props.pageSearchConfig?.formItems ?? []
@@ -44,10 +44,9 @@ export default defineComponent({
       Object.keys(formData.value).forEach((key: string) => {
         formData.value[`${key}`] = originFormData[key]
       })
+      emit('handleRefreshClick')
     }
     const handleSearchBtn = () => {
-      console.log(formData.value)
-
       emit('handleSearchClick', formData.value)
     }
     return {

@@ -5,13 +5,15 @@
         <div class="title">{{ tableTitle }}</div>
         <div class="handler">
           <slot name="headerHandle">
-            <el-button type="primary">{{ headerHandle }}</el-button>
+            <el-button type="primary" @click="handleNewClick">
+              {{ headerHandle }}
+            </el-button>
           </slot>
         </div>
       </slot>
     </div>
 
-    <el-table :data="tableData" border>
+    <el-table :data="tableData" border v-bind="childrenProps" lazy>
       <el-table-column
         v-if="showSelectionColumn"
         type="selection"
@@ -36,7 +38,7 @@
       </template>
     </el-table>
 
-    <slot name="footer">
+    <slot name="footer" v-if="showFooter">
       <div class="footer">
         <el-pagination
           @current-change="handleCurrentChange"
@@ -69,6 +71,9 @@ export default defineComponent({
       type: Array,
       default: () => []
     },
+    childrenProps: {
+      type: Object
+    },
     propList: {
       type: Array,
       default: () => []
@@ -81,16 +86,20 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    showFooter: {
+      type: Boolean,
+      default: true
+    },
     page: {
       type: Object,
-      required: true
+      default: () => ({ currentPage: 0, pageSize: 10 })
     },
     listCount: {
       type: Number,
       defaut: 0
     }
   },
-  emits: ['update:page'],
+  emits: ['update:page', 'handleNewClick'],
   setup(props, { emit }) {
     const handleCurrentChange = (currentPage: number) => {
       emit('update:page', { ...props.page, currentPage })
@@ -98,10 +107,14 @@ export default defineComponent({
     const handleSizeChange = (pageSize: number) => {
       emit('update:page', { ...props.page, pageSize })
     }
+    const handleNewClick = () => {
+      emit('handleNewClick')
+    }
 
     return {
       handleCurrentChange,
-      handleSizeChange
+      handleSizeChange,
+      handleNewClick
     }
   }
 })

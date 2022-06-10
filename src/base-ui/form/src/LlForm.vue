@@ -5,7 +5,11 @@
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
-            <el-form-item :label="item.label" :style="itemLayout">
+            <el-form-item
+              :label="item.label"
+              :style="itemLayout"
+              v-if="!item.isHidden"
+            >
               <template
                 v-if="item.type === 'input' || item.type === 'password'"
               >
@@ -65,8 +69,7 @@ export default defineComponent({
       })
     },
     modelValue: {
-      type: Object,
-      required: true
+      type: Object
     },
     labelWidth: {
       type: String,

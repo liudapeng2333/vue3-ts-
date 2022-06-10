@@ -5,6 +5,7 @@
       v-bind="pageContentConfig"
       v-model:page="pageInfo"
       :listCount="listCount"
+      @handleNewClick="handleNewClick"
     >
       <template #status="scope">
         <el-button :type="scope.row.enable ? 'success' : 'danger'" plain>{{
@@ -17,10 +18,22 @@
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handler">
-          <el-button icon="Edit" type="text" size="small">编辑</el-button>
-          <el-button icon="Delete" type="text" size="small">删除</el-button>
+          <el-button
+            icon="Edit"
+            type="text"
+            size="small"
+            @click="handleEditClick(scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            icon="Delete"
+            type="text"
+            size="small"
+            @click="handleDeleteClick(scope.row)"
+            >删除</el-button
+          >
         </div>
       </template>
       <!-- 将其他组件独有的插槽动态插入 -->
@@ -39,7 +52,7 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import LlTable from '@/base-ui/table'
 import { useStore } from '@/store'
-import { tr } from 'element-plus/lib/locale'
+import { userPermission } from '@/hooks/user-permission'
 
 export default defineComponent({
   props: {
@@ -55,8 +68,16 @@ export default defineComponent({
   components: {
     LlTable
   },
-  setup(props) {
+  emits: ['handleNewClick', 'handleEditClick'],
+  setup(props, { emit }) {
     const store = useStore()
+
+    // 获取操作的权限
+    const isCreate = userPermission(props.pageName, 'create')
+    const isUpdate = userPermission(props.pageName, 'update')
+    const isDelete = userPermission(props.pageName, 'delete')
+    const isQuery = userPermission(props.pageName, 'query')
+
     const tableData = computed(() =>
       store.getters['system/pageListData'](props.pageName)
     )
@@ -66,6 +87,7 @@ export default defineComponent({
     const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageInfo())
     const getPageInfo = (queryInfo: any = {}) => {
+      if (!isQuery) return null
       store.dispatch('system/getPageList', {
         pageName: props.pageName,
         queryInfo: {
@@ -86,12 +108,37 @@ export default defineComponent({
         return true
       }
     )
+
+    const handleNewClick = () => {
+      if (isCreate) emit('handleNewClick')
+      else alert('没有新建权限！')
+    }
+    const handleEditClick = (item: any) => {
+      if (isUpdate) emit('handleEditClick', item)
+      else alert('没有编辑权限！')
+    }
+    const handleDeleteClick = (item: any) => {
+      if (isDelete) {
+        console.log('删除操作')
+        store.dispatch('system/deleteBtnActions', {
+          pageName: props.pageName,
+          id: item.id
+        })
+      } else alert('没有删除权限')
+    }
     return {
       tableData,
       listCount,
       pageInfo,
       getPageInfo,
-      oterSlotsProps
+      oterSlotsProps,
+      isCreate,
+      isUpdate,
+      isDelete,
+      isQuery,
+      handleNewClick,
+      handleEditClick,
+      handleDeleteClick
     }
   }
 })

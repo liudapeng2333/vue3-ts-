@@ -109,6 +109,18 @@ class LLRequest {
       method: 'POST'
     })
   }
+  patch<T>(config: LLRequestConfig<T>): Promise<T> {
+    return this.request<T>({
+      ...config,
+      method: 'PATCH'
+    })
+  }
+  delete<T>(config: LLRequestConfig<T>): Promise<T> {
+    return this.request<T>({
+      ...config,
+      method: 'DELETE'
+    })
+  }
 }
 
 export default LLRequest
