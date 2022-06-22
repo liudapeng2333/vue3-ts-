@@ -1,7 +1,8 @@
 import { ref } from 'vue'
 import PageModal from '@/components/page-modal'
 
-export function useModal(fn1?: () => void, fn2?: () => void) {
+type callback = (item?: any) => void
+export function useModal(fn1?: callback, fn2?: callback) {
   const pageModalRef = ref<InstanceType<typeof PageModal>>()
   const defaultInfo = ref({})
 
@@ -17,7 +18,7 @@ export function useModal(fn1?: () => void, fn2?: () => void) {
     if (pageModalRef.value) {
       pageModalRef.value.dialogVisiable = true
     }
-    fn2 && fn2()
+    fn2 && fn2(item)
   }
 
   return [pageModalRef, defaultInfo, handleNewClick, handleEditClick]

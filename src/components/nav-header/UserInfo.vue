@@ -14,7 +14,7 @@
           <el-dropdown-item>用户管理</el-dropdown-item>
           <el-dropdown-item divided>设置</el-dropdown-item>
           <el-dropdown-item>系统管理</el-dropdown-item>
-          <el-dropdown-item>退出登陆</el-dropdown-item>
+          <el-dropdown-item @click="signOut">退出登陆</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -24,14 +24,21 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useStore } from '@/store'
+import { useRouter } from 'vue-router'
+import localCache from '@/utils/cache'
 
 export default defineComponent({
   setup() {
     const store = useStore()
+    const router = useRouter()
     const userName = store.state.accountLogin.userInfo.name
-
+    const signOut = () => {
+      localCache.removeItem('token')
+      router.push('/main')
+    }
     return {
-      userName
+      userName,
+      signOut
     }
   }
 })

@@ -44,11 +44,14 @@ const accountLogin: Module<ILoginState, IRootState> = {
     }
   },
   actions: {
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       // 1. 实现登陆逻辑
       const loginResult = await accountLoginRequset(payload)
       const { id, token } = loginResult.data
       localCache.setItem('token', token)
+
+      // 初始化，请求全局的部门和全局的角色
+      dispatch('getInitialActionData', null, { root: true })
       commit('changeToken', token)
 
       // 2.请求用户信息
@@ -58,17 +61,21 @@ const accountLogin: Module<ILoginState, IRootState> = {
       commit('changeUserInfo', userInfo)
 
       //3. 请求用户菜单
-      const userMenusRequest = await requestUserMenuById(id)
+
+      const userMenusRequest = await requestUserMenuById(userInfo.role.id)
       const userMenus = userMenusRequest.data
+
       localCache.setItem('userMenu', userMenus)
       commit('changeUserMenu', userMenus)
 
       router.push('/main')
     },
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getItem('token')
       if (token) {
         commit('changeToken', token)
+        // 初始化，请求全局的部门和全局的角色
+        dispatch('getInitialActionData', null, { root: true })
       }
       const userInfo = localCache.getItem('userInfo')
       if (userInfo) {

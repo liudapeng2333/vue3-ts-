@@ -9,6 +9,8 @@
       destroy-on-close
     >
       <ll-form v-bind="pageModalConfig" v-model="formData"></ll-form>
+      <!-- 默认插槽 -->
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisiable = false">取消</el-button>
@@ -32,6 +34,10 @@ export default defineComponent({
       required: true
     },
     defaultInfo: {
+      type: Object,
+      default: () => ({})
+    },
+    otherInfo: {
       type: Object,
       default: () => ({})
     },
@@ -67,14 +73,15 @@ export default defineComponent({
         console.log('编辑用户')
         store.dispatch('system/editBtnActions', {
           pageName: props.pageName,
-          newData: { ...formData.value },
+          // 修改config中的form数据外，将权限数据化为otherInfo补充到newdata中
+          newData: { ...formData.value, ...props.otherInfo },
           id: props.defaultInfo.id
         })
       } else {
         console.log('新建用户')
         store.dispatch('system/creatBtnActions', {
           pageName: props.pageName,
-          newData: { ...formData.value }
+          newData: { ...formData.value, ...props.otherInfo }
         })
       }
       dialogVisiable.value = false

@@ -9,22 +9,22 @@ enum LoginAPI {
 }
 
 export function accountLoginRequset(account: IAccount) {
-  return llRequest.post<IDataType<ILoginResult>>({
+  return llRequest.post<IDataType>({
     url: LoginAPI.AcountLogin,
     data: account
   })
 }
 
 export function requestUserInfoById(id: number) {
-  return llRequest.get<IDataType<IUserInfo>>({
+  return llRequest.get<IDataType>({
     url: LoginAPI.RequestUser + id,
-    isLoading: true
+    isLoading: false
   })
 }
 
 export function requestUserMenuById(id: number) {
-  return llRequest.get<IDataType<IUserMenu[]>>({
+  return llRequest.get<IDataType>({
     url: LoginAPI.RequestUserMenu + id + '/menu',
-    isLoading: true
+    isLoading: false
   })
 }
